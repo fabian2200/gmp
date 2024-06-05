@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "753567200793",
+    "project_id": "gmp-leer-2",
+    "storage_bucket": "gmp-leer-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753567200793:android:e1c4e5f5c5576473019c88",
+        "android_client_info": {
+          "package_name": "com.leer.gmp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753567200793-1qju1ma6ba37k1s7bttv47pu4remf47g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.leer.gmp",
+            "certificate_hash": "b85fa274ccf989d337185dc31af5442e5fcb33bd"
+          }
+        },
+        {
+          "client_id": "753567200793-p9gvhmm8t9033fnenr0v20ugrhrfds02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBdH_X7hcO0IDyQh7iiZDHazu2OKvb9eI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753567200793-p9gvhmm8t9033fnenr0v20ugrhrfds02.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
