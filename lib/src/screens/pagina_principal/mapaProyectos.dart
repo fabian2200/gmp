@@ -345,16 +345,18 @@ class _MapaProyectosPagePageState extends State<MapaProyectosPage> {
 
     await location.getLocation().then((onValue) {
       currentposition = onValue;
-      _goToPosition(currentposition);
+      const double offset = 0.015;
+      final LatLng newCenter = LatLng(currentposition.latitude - offset, currentposition.longitude);
+      _goToPosition(newCenter);
     });
 
   }
 
   
 
-  Future<void> _goToPosition(LocationData posicion) async {
+  Future<void> _goToPosition(LatLng posicion) async {
     final CameraPosition _kLake = CameraPosition(
-        target: LatLng(posicion.latitude, posicion.longitude),
+        target: posicion,
         zoom: getZoomLevel(widget.radiusCircle));
 
     final GoogleMapController controller = await _controller.future;

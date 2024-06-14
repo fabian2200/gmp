@@ -286,11 +286,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   width: _sc.getProportionateScreenHeight(50),
                                   height: _sc.getProportionateScreenHeight(50),
                                   decoration: BoxDecoration(
-                                    color: Color(
-                                            (random.nextDouble() * 0xFFFFFF)
-                                                .toInt())
-                                        .withOpacity(0.4),
+                                    color: Color((random.nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.4),
                                     borderRadius: BorderRadius.circular(10000),
+                                  ),
+                                  child: Center(
+                                    child: Icon(Icons.account_balance, color: Colors.white, size: 27),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -321,7 +321,9 @@ class _DashboardPageState extends State<DashboardPage> {
                           ),
                         );
                       },
-                    )),
+                    )
+                  ),
+                  SizedBox(height: 40)
               ],
             ),
           ),

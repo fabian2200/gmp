@@ -9,6 +9,7 @@ import 'package:motion_toast/motion_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class BienvenidaPage extends StatefulWidget {
   BienvenidaPage({Key key}) : super(key: key);
@@ -83,36 +84,41 @@ class _BienvenidaPageState extends State<BienvenidaPage> {
               )
             ],
           ),
-          //appBar: AppBar(title: Text(_titles[_currentIndex])),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _currentIndex,
-            onTap: onTabTapped, // this will be set when a new tab is tapped
-            items: [
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.home),
-                label: 'Geo',
+          bottomNavigationBar: CurvedNavigationBar(
+            backgroundColor: Colors.white,
+            buttonBackgroundColor: kazuloscuro,
+            color: kazuloscuro,
+            height: 60,
+            items: const <Widget>[
+              Icon(
+                Icons.home,
+                size: 33,
+                color: Colors.white,
               ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.store_mall_directory_rounded),
-                label: 'Compañias',
+              Icon(
+                Icons.store_mall_directory_rounded,
+                size: 33,
+                color: Colors.white,
               ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.person_outline),
-                label: 'Perfil',
+              Icon(
+                Icons.person_outline,
+                size: 33,
+                color: Colors.white,
               ),
             ],
+            onTap: onTabTapped
           ),
           body: not == true? NotificacionesPage(): _children[_currentIndex]),
     );
   }
 
   void onTabTapped(int index) async {
-    await consultarNotificaciones();
     setState(() {
       not = false;
       _currentIndex = index;
     });
+
+    await consultarNotificaciones();
   }
 
   void onTabTapped2() async {

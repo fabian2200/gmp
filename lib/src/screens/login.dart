@@ -77,12 +77,15 @@ class _LoginPageState extends State<LoginPage> {
       opacity: 0.9,
       color: Colors.white,
       child: Scaffold(
+      backgroundColor: Colors.white,
       key: key,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(
-                vertical: _sc.getProportionateScreenHeight(defaultpadding)),
+              vertical: _sc.getProportionateScreenHeight(defaultpadding),
+              horizontal: _sc.getProportionateScreenHeight(defaultpadding - 10),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,279 +103,342 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(
-                  height: _sc.getProportionateScreenHeight(30),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal:
-                          _sc.getProportionateScreenHeight(defaultpadding)),
-                  child: Text(
-                    "Ingresa con tu cuenta",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: _sc.getProportionateScreenHeight(22)),
-                  ),
-                ),
-                SizedBox(
-                  height: _sc.getProportionateScreenHeight(10),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Center(
-                    child: Text(errorusuario + " " + errorcontra,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, color: Colors.red)),
-                  ),
-                ),
-                SizedBox(
-                  height: _sc.getProportionateScreenHeight(20),
-                ),
-                Form(
-                  key: llave,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: _sc
-                              .getProportionateScreenWidth(defaultpadding - 1),
-                        ),
-                        child: Container(
-                          height: _sc.getProportionateScreenHeight(50),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset:
-                                    Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Center(
-                              child: TextFormField(
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Correo electrónico'),
-                                  onSaved: (value) {
-                                    usuario = value;
-                                  },
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      setState(() {
-                                        errorusuario =
-                                            "Debe escrbir un correo electrónico, ";
-                                      });
-                                      return null;
-                                    } else {
-                                      setState(() {
-                                        errorusuario = "";
-                                      });
-                                    }
-                                  }),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height:
-                            _sc.getProportionateScreenHeight(defaultpadding),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal:
-                              _sc.getProportionateScreenWidth(espacio_login),
-                        ),
-                        child: Container(
-                          height: _sc.getProportionateScreenHeight(50),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset:
-                                    Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Center(
-                              child: TextFormField(
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Contraseña'),
-                                  obscureText: true,
-                                  onSaved: (value) {
-                                    contra = value;
-                                  },
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      setState(() {
-                                        errorcontra =
-                                            "Debe ingresar una contraseña";
-                                      });
-                                      return null;
-                                      //return "Debe ingresar una contraseña";
-                                    } else {
-                                      setState(() {
-                                        errorcontra = "";
-                                      });
-                                    }
-                                  }),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: _sc.getProportionateScreenHeight(15),
-                      ),
-                      Row(
-                        mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RegistroUsuario()),
-                                );
-                              },
-                              child: new Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: _sc.getProportionateScreenHeight(
-                                        defaultpadding)),
-                                child: new Text("Registrate aquí"),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => OlvidoPassword()),
-                                );
-                              },
-                              child: new Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: _sc.getProportionateScreenHeight(
-                                        defaultpadding)),
-                                child: new Text("¿Olvidaste la contraseña?"),
-                              ),
-                            ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: _sc.getProportionateScreenHeight(30),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal:
-                              _sc.getProportionateScreenWidth(espacio_login),
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          child: MaterialButton(
-                            color: color == 0 ? kazuloscuro : kverde,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              //side: BorderSide(color: Colors.red)
-                            ),
-                            onPressed: () {
-                              _logueo(context);
-                            },
-                            child: setUpButtonChild(),
-                            height: _sc.getProportionateScreenHeight(50),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: _sc.getProportionateScreenHeight(25),
+                  height: _sc.getProportionateScreenHeight(60),
                 ),
                 Container(
-                  width: double.infinity,
-                  child: Align(
-                    child: Text(
-                      "- O ingresa con -",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: _sc.getProportionateScreenHeight(defaultpadding + 5),
-                ),
-                Align(
-                  child: SignInButton(
-                    Buttons.Google,
-                    text: "Continuar con Google",
-                    onPressed: () {
-                      authBloc.loginGoogle(context);
-                    },
-                  ),
-                ),
-                isIOS13 == true
-                    ? Align(
-                        child: SignInButton(
-                          Buttons.AppleDark,
-                          text: "Continuar con apple",
-                          onPressed: () {
-                            //signinapple(context);
-                            logIn();
-                          },
-                        ),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: _sc.getProportionateScreenHeight(defaultpadding + 5),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal:
-                            _sc.getProportionateScreenWidth(defaultpadding)),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        text: 'Al registrarte estaras aceptando los ',
-                        style: TextStyle(color: Colors.black),
-                        /*defining default style is optional */
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: ' términos de servicio',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(
-                              text: ' y',
-                              style: TextStyle(color: Colors.black)),
-                          TextSpan(
-                            text: ' políticas de privacidad',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                _sc.getProportionateScreenHeight(defaultpadding)),
+                        child: Text(
+                          "Ingresa con tu cuenta",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: _sc.getProportionateScreenHeight(22),
+                            color: Color.fromARGB(255, 100, 100, 100)
                           ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: _sc.getProportionateScreenHeight(10),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Center(
+                          child: Text(errorusuario + " " + errorcontra,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, color: Colors.red)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: _sc.getProportionateScreenHeight(20),
+                      ),
+                      Form(
+                        key: llave,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: _sc
+                                    .getProportionateScreenWidth(defaultpadding - 1),
+                              ),
+                              child: Container(
+                                height: _sc.getProportionateScreenHeight(50),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset:
+                                          Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Center(
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Correo electrónico',
+                                          icon: Icon(Icons.email)
+                                        ),
+                                        onSaved: (value) {
+                                          usuario = value;
+                                        },
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            setState(() {
+                                              errorusuario =
+                                                  "Debe escrbir un correo electrónico, ";
+                                            });
+                                            return null;
+                                          } else {
+                                            setState(() {
+                                              errorusuario = "";
+                                            });
+                                          }
+                                        }),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height:
+                                  _sc.getProportionateScreenHeight(defaultpadding),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    _sc.getProportionateScreenWidth(espacio_login),
+                              ),
+                              child: Container(
+                                height: _sc.getProportionateScreenHeight(50),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset:
+                                          Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Center(
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Contraseña',
+                                          icon: Icon(Icons.key)
+                                        ),
+                                        obscureText: true,
+                                        onSaved: (value) {
+                                          contra = value;
+                                        },
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            setState(() {
+                                              errorcontra =
+                                                  "Debe ingresar una contraseña";
+                                            });
+                                            return null;
+                                            //return "Debe ingresar una contraseña";
+                                          } else {
+                                            setState(() {
+                                              errorcontra = "";
+                                            });
+                                          }
+                                        }),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: _sc.getProportionateScreenHeight(15),
+                            ),
+                            Row(
+                              mainAxisAlignment:  MainAxisAlignment.end,
+                              children: <Widget>[
+                                  
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => OlvidoPassword()),
+                                      );
+                                    },
+                                    child: new Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: _sc.getProportionateScreenHeight(defaultpadding),
+                                        vertical: 10
+                                      ),
+                                      child: new Text("¿Olvidaste la contraseña?", style: TextStyle(fontWeight: FontWeight.bold),),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: _sc.getProportionateScreenHeight(20),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    _sc.getProportionateScreenWidth(espacio_login),
+                              ),
+                              child: Container(
+                                width: double.infinity,
+                                child: MaterialButton(
+                                  color: color == 0 ? kazuloscuro : kverde,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    //side: BorderSide(color: Colors.red)
+                                  ),
+                                  onPressed: () {
+                                    _logueo(context);
+                                  },
+                                  child: setUpButtonChild(),
+                                  height: _sc.getProportionateScreenHeight(50),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: _sc.getProportionateScreenHeight(25),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: Align(
+                          child: Text(
+                            "- O ingresa con -",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: _sc.getProportionateScreenHeight(defaultpadding + 5),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              authBloc.loginGoogle(context);
+                            },
+                            child: Container(
+                              height: _sc.getProportionateScreenHeight(50),
+                              width:  _sc.getProportionateScreenHeight(50),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                borderRadius: BorderRadius.circular(_sc.getProportionateScreenHeight(15)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromARGB(255, 51, 51, 51).withOpacity(0.2), // color de la sombra con opacidad
+                                    spreadRadius: 2, // expansión de la sombra
+                                    blurRadius: 2, // desenfoque de la sombra
+                                    offset: Offset(2, 2), // desplazamiento de la sombra (x, y)
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/google.png",
+                                  width: _sc.getProportionateScreenHeight(40),
+                                ),
+                              ),
+                            )
+                          ),
+                          SizedBox(
+                            width: _sc.getProportionateScreenWidth(20),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              logIn();
+                            },
+                            child: Container(
+                              height: _sc.getProportionateScreenHeight(50),
+                              width:  _sc.getProportionateScreenHeight(50),
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(_sc.getProportionateScreenHeight(15)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.25), // color de la sombra con opacidad
+                                    spreadRadius: 2, // expansión de la sombra
+                                    blurRadius: 2, // desenfoque de la sombra
+                                    offset: Offset(2, 2), // desplazamiento de la sombra (x, y)
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/apple.png",
+                                  width: _sc.getProportionateScreenHeight(30),
+                                ),
+                              ),
+                            )
+                          ),
+                          
                         ],
                       ),
-                    ),
+                      /*
+                      Align(
+                        child: SignInButton(
+                          Buttons.Google,
+                          text: "Continuar con Google",
+                          onPressed: () {
+                            authBloc.loginGoogle(context);
+                          },
+                        ),
+                      ),
+                      isIOS13 == true
+                          ? Align(
+                              child: SignInButton(
+                                Buttons.AppleDark,
+                                text: "Continuar con apple",
+                                onPressed: () {
+                                  //signinapple(context);
+                                  logIn();
+                                },
+                              ),
+                            )
+                          : Container(),*/
+                      SizedBox(
+                        height: _sc.getProportionateScreenHeight(defaultpadding + 15),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: _sc.getProportionateScreenWidth(defaultpadding)
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegistroUsuario()),
+                              );
+                            },
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                text: '¿No tienes una cuenta?  ',
+                                style: TextStyle(color: Colors.black),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: ' Regístrate ahora',
+                                    style: TextStyle(fontWeight: FontWeight.bold, color: kazuloscuro)
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ),
+                      )
+                    ],
                   ),
                 )
               ],

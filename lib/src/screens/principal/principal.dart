@@ -5,7 +5,12 @@ import 'package:gmp/src/screens/geo/geo.dart';
 import 'package:gmp/src/screens/inicio/dashboard.dart';
 import 'package:gmp/src/screens/perfil/perfil.dart';
 import 'package:gmp/src/screens/secretarias/secretarias.dart';
+import 'package:gmp/src/settings/constantes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:motion_tab_bar/MotionBadgeWidget.dart';
+import 'package:motion_tab_bar/MotionTabBar.dart';
+import 'package:motion_tab_bar/MotionTabBarController.dart';
+
 
 class PrincipalPage extends StatefulWidget {
   PrincipalPage({Key key}) : super(key: key);
@@ -21,45 +26,41 @@ class _PrincipalPageState extends State<PrincipalPage> {
   
   final List<Widget> _children = [
     DashboardPage(),
-    SecretariaPage(),
+    //SecretariaPage(),
     GeoPage(),
     EstadisticasPage(),
-    PerfilPage()
+    //PerfilPage()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-          //appBar: AppBar(title: Text(_titles[_currentIndex])),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _currentIndex,
-            onTap: onTabTapped, // this will be set when a new tab is tapped
-            items: [
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.home),
-                label: 'Inicio',
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.apps),
-                label: 'Secretarías',
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.my_location),
-                label: 'Geo',
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.pie_chart_outline),
-                label: 'Estadísticas',
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.person_outline),
-                label: 'Perfil',
-              )
-            ],
-          ),
-          body: _children[_currentIndex]),
+        bottomNavigationBar: MotionTabBar(
+          labels: [
+            "Inicio","Geolocalización","Estadísticas"
+          ],
+          initialSelectedTab: "Inicio",
+          tabIconColor: Colors.white,
+          tabIconSize: 28.0,
+          tabIconSelectedSize: 32.0,
+          tabSize: 50,
+          tabSelectedColor: Color.fromARGB(255, 255, 255, 255),
+          tabIconSelectedColor: kazuloscuro,
+          tabBarColor: kazuloscuro,
+          tabBarHeight: 55,
+          onTabItemSelected: (int value){
+            print(value);
+            setState(() {
+              _currentIndex = value;
+            });
+          },
+          icons: [
+            Icons.home,Icons.my_location,Icons.pie_chart_outline
+          ],
+          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        body: _children[_currentIndex]),
     );
   }
 

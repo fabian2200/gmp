@@ -44,7 +44,7 @@ class _CGeolocalizacionNuevaPageState extends State<GeolocalizacionNueva> {
 
   final oCcy = new NumberFormat("#,##0", "es_CO");
   Random random = new Random();
-  double _currentSliderValue = 0;
+  double _currentSliderValue = 2;
   bool loading = false;
   Utils utils = new Utils(); 
 
@@ -220,7 +220,7 @@ class _CGeolocalizacionNuevaPageState extends State<GeolocalizacionNueva> {
                                 ),
                                 Slider(
                                   value: _currentSliderValue,
-                                  max: 10,
+                                  max: 5,
                                   divisions: 10,
                                   label: _currentSliderValue.round().toString(),
                                   onChanged: (double value) {
@@ -417,10 +417,12 @@ class _CGeolocalizacionNuevaPageState extends State<GeolocalizacionNueva> {
                                         height: _sc.getProportionateScreenHeight(50),
                                         decoration: BoxDecoration(
                                           color: Color(
-                                                  (random.nextDouble() * 0xFFFFFF)
-                                                      .toInt())
-                                              .withOpacity(0.4),
+                                            (random.nextDouble() * 0xFFFFFF).toInt()
+                                          ).withOpacity(0.4),
                                           borderRadius: BorderRadius.circular(10000),
+                                        ),
+                                        child: Center(
+                                          child: Icon(Icons.account_balance, color: Colors.white, size: 27),
                                         ),
                                       ),
                                       SizedBox(width: 10),
