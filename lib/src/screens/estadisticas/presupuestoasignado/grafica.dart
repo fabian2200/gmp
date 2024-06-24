@@ -158,33 +158,19 @@ class _GraficaPresupuestoAsignadoPageState
         headers: {"Accept": "application/json"});
 
     final reponsebody = json.decode(response.body);
-    // print(reponsebody);
     this.setState(() {
       try {
         contratos = reponsebody["contratos"];
-        //print(contratos);
-        //print(reponsebody['datos_secretaria']["total"]);
         var cantidad = contratos.length;
         for (int i = 0; i < cantidad; i++) {
-          //print("Entrando");
-          //print(contratos[i]["vcontr_contrato"].toString());
           total = contratos[i]["vcontr_contrato"];
         }
-
-        //print(total.toString());
-
         for (int j = 0; j < cantidad; j++) {
           porDisponible = contratos[j]["vcontr_contrato"] * 100 / total;
           dataMap.putIfAbsent(
               contratos[j]["num_contrato"], () => porDisponible);
           colores.add(color[j]);
         }
-
-        //print(fuentes);
-
-        //porDisponible = disponible * 100 / total;
-        //porAsignado = asignado * 100 / total;
-
         colores.toList();
       } catch (e) {}
     });

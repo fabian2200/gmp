@@ -104,9 +104,11 @@ class _CompaniasPageState extends State<CompaniasPage> {
                                 ),
                                 child: ListTile(
                                     leading: CircleAvatar(
+                                      backgroundColor: Color.fromARGB(255, 165, 210, 247),
                                       radius: defaultpadding + 10,
                                       backgroundImage: NetworkImage(
-                                          '${RUTA_IMAGEN}ImgEmpresa/${companias[index]['companias_img']}'),
+                                        '${RUTA_IMAGEN}ImgEmpresa/${companias[index]['companias_img']}',
+                                      ),
                                     ),
                                     title: Text(
                                       companias[index]['companias_descripcion']
@@ -299,14 +301,14 @@ class _CompaniasPageState extends State<CompaniasPage> {
   }
 
   Future<String> getData() async {
-    //print("Uri.parse('${URL_SERVER}companias");
-    var response = await http.get(Uri.parse('${URL_SERVER}companias'),
-        headers: {"Accept": "application/json"});
+    var response = await http.get(
+      Uri.parse('${URL_SERVER}companias'),
+      headers: {"Accept": "application/json"}
+    );
 
     final reponsebody = json.decode(response.body);
     this.setState(() {
       this.companias = reponsebody['companias'];
-      //print(this.companias);
     });
 
     return "Success!";

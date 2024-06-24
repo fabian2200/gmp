@@ -60,7 +60,7 @@ class _BienvenidaPageState extends State<BienvenidaPage> {
                     child: Stack(
                     children: <Widget>[
                       Icon(
-                        not == false? Icons.notifications_none: Icons.notifications,
+                        not == false ? Icons.notifications_none: Icons.notifications,
                         color: Colors.grey[600],
                         size: 30,
                       ),

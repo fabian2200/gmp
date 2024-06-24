@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage({Key key}) : super(key: key);
@@ -27,12 +28,17 @@ class _DashboardPageState extends State<DashboardPage> {
   List _secretarias;
   List _stats = [];
   Random random = new Random();
-  int _presupuesto = 0;
-  int _ejecutado = 0;
+  double _presupuesto = 0;
+  double _ejecutado = 0;
+  double _presGastado = 0;
   double _angulopendiente = 0;
   double _anguloejecutado = 0;
+  double _anguloEjecucion = 0;
+  double _angulogastado= 0;
   String _mpendiente = "0";
   String _mejecutado = "0";
+  String _mejecucion = "0";
+  String _mgastado = "0";
   final oCcy = new NumberFormat("#,##0", "es_CO");
 
   String nombreEntidad = "";
@@ -113,9 +119,12 @@ class _DashboardPageState extends State<DashboardPage> {
                           children: [
                             Container(
                               width: _sc.getProportionateScreenWidth(50),
-                              child: CustomPaint(
-                                painter:
-                                    Circulo(Colors.green, _anguloejecutado),
+                              child: CircularPercentIndicator(
+                                radius: 55.0,
+                                lineWidth: 4.0,
+                                percent: _anguloejecutado,
+                                center: new Text(_anguloejecutado.toStringAsFixed(4)+"%", style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold)),
+                                progressColor: Colors.green,
                               ),
                             ),
                             SizedBox(
@@ -159,9 +168,114 @@ class _DashboardPageState extends State<DashboardPage> {
                           children: [
                             Container(
                               width: _sc.getProportionateScreenWidth(50),
-                              child: CustomPaint(
-                                painter:
-                                    Circulo(Colors.orange, _angulopendiente),
+                              child: CircularPercentIndicator(
+                                radius: 55.0,
+                                lineWidth: 4.0,
+                                percent: _anguloEjecucion,
+                                center: new Text(_anguloEjecucion.toStringAsFixed(4)+"%", style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold)),
+                                progressColor: Colors.orange,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "En ejecución",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.grey[600]),
+                                ),
+                                Text(
+                                  "\$${_mejecucion} ",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                 SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          //color: krojoclaro,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: _sc.getProportionateScreenWidth(50),
+                              child:  CircularPercentIndicator(
+                                radius: 55.0,
+                                lineWidth: 4.0,
+                                percent: _angulogastado,
+                                center: Text(_angulogastado.toStringAsFixed(4)+"%", style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold)),
+                                progressColor: Colors.red,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "Gastado",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.grey[600]),
+                                ),
+                                Text(
+                                  "\$${_mgastado} ",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          //color: krojoclaro,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: _sc.getProportionateScreenWidth(50),
+                              child: CircularPercentIndicator(
+                                radius: 55.0,
+                                lineWidth: 4.0,
+                                percent: _angulopendiente,
+                                center:  Text(_angulopendiente.toStringAsFixed(4)+"%", style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold)),
+                                progressColor: Colors.blue,
                               ),
                             ),
                             SizedBox(
@@ -303,7 +417,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           fontWeight: FontWeight.w600),
                                     ),
                                     Text(
-                                      "Proyectos: ${_secretarias[index]['num_contrato']}",
+                                      "Proyectos: ${_secretarias[index]['cp']}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.grey[600]),
@@ -382,32 +496,47 @@ class _DashboardPageState extends State<DashboardPage> {
 
     final reponsebody = json.decode(response.body);
     setState(() {
-      _presupuesto = reponsebody['presupuesto'];
-      _ejecutado =
-          reponsebody['presupuesto_general'][0]["TOTAL_EJECUCION_PROYECTOS"];
-      if (_ejecutado > 1000000) {
+      _presupuesto = double.parse(reponsebody['presupuesto']);
+      _ejecutado =  double.parse(reponsebody['presupuesto_general']["TOTAL_EJECUCION_PROYECTOS"]);
+      double _enEjecucion = double.parse(reponsebody['presupuesto_general']["TOTAL_GASTADO_EN_EJECUCION"]);
+      if (_ejecutado > 10000000) {
         _mejecutado = oCcy.format(_ejecutado / 1000000) + "M";
       } else {
         _mejecutado = oCcy.format(_ejecutado);
       }
 
-      int _pendiente = _presupuesto - _ejecutado;
-      if (_pendiente > 1000000) {
+      if (_enEjecucion > 10000000) {
+        _mejecucion = oCcy.format(_enEjecucion / 1000000) + "M";
+      } else {
+        _mejecucion = oCcy.format(_enEjecucion);
+      }
+
+      _presGastado = _ejecutado + _enEjecucion;
+
+       if (_presGastado > 10000000) {
+        _mgastado = oCcy.format(_presGastado / 1000000) + "M";
+      } else {
+        _mgastado = oCcy.format(_presGastado);
+      }
+
+      double _pendiente = _presupuesto - (_ejecutado + _enEjecucion);
+      if (_pendiente > 10000000) {
         _mpendiente = oCcy.format(_pendiente / 1000000) + "M";
       } else {
         _mpendiente = oCcy.format(_pendiente);
       }
 
-      _anguloejecutado = (360 * _ejecutado) / _presupuesto;
-
-      _angulopendiente = (360 * _pendiente) / _presupuesto;
+      _anguloEjecucion = _enEjecucion / _presupuesto;
+      _anguloejecutado = _ejecutado / _presupuesto;
+      _angulogastado = _presGastado / _presupuesto;
+      _angulopendiente =  _pendiente / _presupuesto;
+      
     });
 
     return true;
   }
 
   _getDataStats(String bd) async {
-    //print(bd);
     var response = await http.get(
         Uri.parse('${URL_SERVER}graficainicial?bd=${bd}'),
         headers: {"Accept": "application/json"});
@@ -422,48 +551,12 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   _ir(String id, String nombre) {
-    //Timer(Duration(milliseconds: 1000), () {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) =>
-              ProyectosPage(id: id, nombreSecretaria: nombre)),
+        builder: (context) => ProyectosPage(id: id, nombreSecretaria: nombre)
+      ),
     );
-    // });
-  }
-}
-
-class Circulo extends CustomPainter {
-  Color _color;
-  double _angulo;
-
-  Circulo(Color _color, double _angulo) {
-    this._color = _color;
-    this._angulo = _angulo;
-  }
-  @override
-  void paint(Canvas canvas, Size size) {
-    //
-    final center = Offset(size.width / 2, size.height / 2);
-    final paint = Paint()
-      ..color = Colors.grey[300]
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4;
-    canvas.drawCircle(center, size.width / 3, paint);
-
-    Paint progressPaint = Paint()
-      ..color = _color
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4;
-
-    canvas.drawArc(Rect.fromCircle(center: center, radius: size.width / 3),
-        math.radians(-90), math.radians(_angulo), false, progressPaint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter old) {
-    return false;
   }
 }
 

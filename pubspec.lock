@@ -696,6 +696,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.4"
+  label_marker:
+    dependency: "direct main"
+    description:
+      name: label_marker
+      sha256: c9343665f35f589dee077949a936a441e26c5cf0234f8ba1638c30325a913785
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   line_icons:
     dependency: "direct main"
     description:
@@ -848,6 +856,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      sha256: "647a14d6964fb07cf3668625730001f05f668e9564750e3e08c5160f86936b46"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.9+1"
   permission_handler:
     dependency: "direct main"
     description:

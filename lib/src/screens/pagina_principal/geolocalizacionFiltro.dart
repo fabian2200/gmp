@@ -9,9 +9,6 @@ import 'package:gmp/src/settings/size_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
-
-
 class GeolocalizacionFiltro extends StatefulWidget {
   GeolocalizacionFiltro({Key key}) : super(key: key);
 

@@ -383,28 +383,6 @@ class _LoginPageState extends State<LoginPage> {
                           
                         ],
                       ),
-                      /*
-                      Align(
-                        child: SignInButton(
-                          Buttons.Google,
-                          text: "Continuar con Google",
-                          onPressed: () {
-                            authBloc.loginGoogle(context);
-                          },
-                        ),
-                      ),
-                      isIOS13 == true
-                          ? Align(
-                              child: SignInButton(
-                                Buttons.AppleDark,
-                                text: "Continuar con apple",
-                                onPressed: () {
-                                  //signinapple(context);
-                                  logIn();
-                                },
-                              ),
-                            )
-                          : Container(),*/
                       SizedBox(
                         height: _sc.getProportionateScreenHeight(defaultpadding + 15),
                       ),
@@ -451,7 +429,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     instanciar_sesion();
     fToast = FToast();
@@ -461,7 +438,6 @@ class _LoginPageState extends State<LoginPage> {
   void _presionado() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      //print("Entrando a la funcion");
       login(context);
     }
   }
@@ -495,7 +471,6 @@ class _LoginPageState extends State<LoginPage> {
       loading = true;
     });
 
-    //print('${URL_SERVER}login?email=$usuario&password=$contra');
     final response = await http
         .get(Uri.parse('${URL_SERVER}login?email=$usuario&password=$contra'));
     final reponsebody = json.decode(response.body);
@@ -511,7 +486,6 @@ class _LoginPageState extends State<LoginPage> {
         spreferences.setString("email", reponsebody['usuario']['email']);
         spreferences.setString("nombre", reponsebody['usuario']['nombre']);
         spreferences.setString("imagen", reponsebody['usuario']['imagen']);
-        //spreferences.setString("rol", reponsebody['usuario']['rol']);
         spreferences.setString("alias", reponsebody['alias'] ?? "");
         spreferences.setString("id", reponsebody['usuario']['id'].toString());
         spreferences.setString("bio", reponsebody['usuario']['bio'].toString());
@@ -521,7 +495,6 @@ class _LoginPageState extends State<LoginPage> {
       });
     } else {
       mostrar_mensaje();
-      //print("Error");
       Timer(Duration(milliseconds: 1500), () {
         setState(() {
           isloading = 0;
@@ -550,7 +523,6 @@ class _LoginPageState extends State<LoginPage> {
 
   instanciar_sesion() async {
     spreferences = await SharedPreferences.getInstance();
-    //isIOS13 = false;
   }
 
   void logIn() async {
@@ -560,16 +532,11 @@ class _LoginPageState extends State<LoginPage> {
 
     switch (result.status) {
       case AuthorizationStatus.authorized:
-
-        // Navigate to secret page (shhh!)
-        /*Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => AfterLoginPage(credential: result.credential)));*/
-        print(
-            "${result.credential.fullName.givenName} ${result.credential.fullName.familyName} ${result.credential.email} ");
         registrar_google(
-            "${result.credential.fullName.givenName} ${result.credential.fullName.familyName}",
-            "${result.credential.email}",
-            context);
+          "${result.credential.fullName.givenName} ${result.credential.fullName.familyName}",
+          "${result.credential.email}",
+          context
+        );
         break;
 
       case AuthorizationStatus.error:
@@ -590,27 +557,25 @@ class _LoginPageState extends State<LoginPage> {
     spreferences = await SharedPreferences.getInstance();
 
     var response = await http.get(
-        Uri.parse(
-            '${URL_SERVER}rfacebook?bd=${bd}&nombre=${nombre}&email=${email}&contra='),
-        headers: {"Accept": "application/json"});
+      Uri.parse(
+        '${URL_SERVER}rfacebook?bd=${bd}&nombre=${nombre}&email=${email}&contra='
+      ),
+      headers: {"Accept": "application/json"}
+    );
 
     final reponsebody = json.decode(response.body);
-
-    //print(reponsebody);
 
     spreferences.setString("email", reponsebody['usuario']['email']);
     spreferences.setString("nombre", reponsebody['usuario']['nombre']);
     spreferences.setString("imagen", reponsebody['usuario']['imagen'] ?? '');
-    spreferences.setString(
-        "telefono", reponsebody['usuario']['telefono'] ?? '');
+    spreferences.setString("telefono", reponsebody['usuario']['telefono'] ?? '');
     spreferences.setString("id_usu", reponsebody['usuario']['id'].toString());
     spreferences.setString("id", reponsebody['usuario']['id'].toString());
     spreferences.setBool("notificaciones", true);
 
-    //print(reponsebody['usuario']['email']);
-
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => BienvenidaPage()));
+      context, MaterialPageRoute(builder: (context) => BienvenidaPage())
+    );
 
     return "Success!";
   }

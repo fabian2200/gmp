@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'dart:ui' as ui;
+import 'package:label_marker/label_marker.dart';
 
 class MapaContratosPage extends StatefulWidget {
   final int idProyecto;
@@ -66,6 +67,7 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
   String estado = "";
   double total = 0;
   String porAvance = "";
+  int distancia = 0;
 
   bool loading = true;
   
@@ -91,7 +93,7 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
           appBar: AppBar(
             toolbarHeight: 80,
             backgroundColor: kazul,
-            title: Center(child: Text("CONTRATOS RELACIONADOS")),
+            title: Text("CONTRATOS RELACIONADOS", style: TextStyle(fontSize: 20)),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(30),
@@ -113,119 +115,251 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
             ),
             AnimatedPositioned(
               duration: Duration(milliseconds: 500),
-              bottom: alto,
+              top: size.height * 0.15,
+              left: size.width * 0.08,
               child: Container(
-                height: 370,
-                width: size.width,
-                padding: const EdgeInsets.symmetric(horizontal: 0),
+                width: size.width * 0.84,
+                padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
                 ),
-                child:  Column(
-                  children : <Widget>[
-                    Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          IconButton(
-                            icon: const Icon(Icons.close),
-                            tooltip: 'Cerrar ventana',
-                            onPressed: () {
-                              setState(() {
-                                cerrarmodal();
-                              });
-                            },
+                child: Center(
+                  child: Text(
+                    widget.nombreProyecto,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: kazul, fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+             AnimatedPositioned(
+              duration: Duration(milliseconds: 500),
+              top: size.height * 0.63,
+              left: size.width * 0.08,
+              child: Container(
+                width: size.width * 0.84,
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [ 
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          height: 40,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: kazul,
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                        ],
-                      ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text((numeroContrato).toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                color: Color.fromARGB(90, 169, 170, 170),
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                          width: size.width * 0.50,
+                          child: Text(
+                            objetoContrato, 
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kazul),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        )
+                      ],
                     ),
                     SizedBox(height: 10),
                     Container(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                        child:  Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Text(widget.nombreProyecto, maxLines: 4,
-                              overflow: TextOverflow.ellipsis,
-                              textDirection: TextDirection.rtl,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: kazul
-                              ),
-                            )
-                          )
-                        ],
-                      ),
+                      height: 2,
+                      color: Color.fromARGB(90, 169, 170, 170),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Scrollable(
-                          // Wrap Scrollable around the entire content that you want to be scrollable
-                          viewportBuilder: (BuildContext context, ViewportOffset offset) {
-                            return Column(
-                              children: [ Slidable(
-                                actionPane: SlidableDrawerActionPane(),
-                                actionExtentRatio: 0.25,
-                                child: Container(
-                                  child: ListTile(
-                                    title: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        SizedBox(height: 10),
-                                        Text("Nº de contrato: "+numeroContrato, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                        Text("Objeto: "+objetoContrato, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))
-                                      ],
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        SizedBox(height: 6),
-                                        Text(contratista+" (contratista)"),
-                                        SizedBox(height: 6),
-                                        Text("Estado: "+estado),
-                                        SizedBox(height: 6),
-                                        Text("Avance: "+ porAvance),
-                                        SizedBox(height: 6),
-                                        Text("Valor: "+ "\$${oCcy.format(total)}")
-                                      ],
-                                    ),
-                                    trailing: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'assets/images/swipe.gif',
-                                          width: 50,
-                                          height: 40,
-                                        )
-                                      ],
-                                    ),
-                                    ),
-                                ),
-                                secondaryActions: <Widget>[
-                                  IconSlideAction(
-                                    caption: 'Ver detalle',
-                                    color: kverde,
-                                    icon: Icons.details_sharp,
-                                    onTap: () => {
-                                      verContrato(idContrato)
-                                    },
-                                  ),
-                                ],
-                              )
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.engineering, color: krosado,),
+                        SizedBox(width: 5),
+                        Container(
+                          child: Text(
+                            "Contratista: ", 
+                            style: TextStyle(fontSize: 13, color: krosado, fontWeight: FontWeight.bold),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Container(
+                          child: Text(
+                            contratista, 
+                            style: TextStyle(fontSize: 13, color: kazul),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.percent, color: knaranja,),
+                        SizedBox(width: 5),
+                        Container(
+                          child: Text(
+                            "Avance: ", 
+                            style: TextStyle(fontSize: 13, color: knaranja, fontWeight: FontWeight.bold),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Container(
+                          child: Text(
+                            porAvance, 
+                            style: TextStyle(fontSize: 13, color: kazul),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 5),
+                        Container(
+                          child: Text(
+                            "\$", 
+                            style: TextStyle(fontSize: 19, color: krojo, fontWeight: FontWeight.bold),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                        SizedBox(width: 13),
+                        Container(
+                          child: Text(
+                            "Valor: ", 
+                            style: TextStyle(fontSize: 13, color: krojo, fontWeight: FontWeight.bold),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Container(
+                          child: Text(
+                            "\$${oCcy.format(total)}", 
+                            style: TextStyle(fontSize: 13, color: kazul),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 7),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.route, color: kverde,),
+                        SizedBox(width: 10),
+                        Container(
+                          child: Text(
+                             "Esta ubicado a "+distancia.toString()+" Mts.", 
+                            style: TextStyle(fontSize: 11, color: kazul),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 0.4,
+                            ),
+                            color: colorContarto(estado)
+                          ),
+                          child: Text(
+                            estado,
+                            style: TextStyle(
+                              color: Colors.black, 
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: (size.height * 0.015)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () => {
+                            verContrato(idContrato)
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1.2,
+                              ),
+                              color: kverde
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.message, color: Colors.white),
+                                SizedBox(width: 4),
+                                Text("Detalles", style: TextStyle(color: Colors.white)),
+                                SizedBox(width: 11),
                               ]
-                            );
-                          }
-                      )
-                    )
+                            ) 
+                          ),
+                        )
+                      ],
+                    ),
                   ]
-                )
-              )),
-            ],
+                ),
+              ),
+            )],
           )
         ),
       )
@@ -243,15 +377,50 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
 
   determinePosition() async {
     posicion = await geolocator.getCurrentPosition(
-        desiredAccuracy: geo.LocationAccuracy.high);
+      desiredAccuracy: geo.LocationAccuracy.high
+    );
   }
 
+  colorContarto(estado){
+    Color color;
+    if (estado == "Ejecucion") {
+      color = Color(0xFF2ED26E); 
+    } else if (estado == "Terminado") {
+      color = Color(0xFF387EFC); 
+    } else if (estado == "Suspendido") {
+      color = Color(0xFFEA4359);
+    } else if (estado == "Liquidado") {
+      color = Color(0xFFFDC20D);
+    }
+    return color;
+  }
+
+  int calculateDistance(LatLng point1, LatLng point2) {
+    const double earthRadius = 6371.0;
+
+    double lat1Rad = radians(point1.latitude);
+    double lon1Rad = radians(point1.longitude);
+    double lat2Rad = radians(point2.latitude);
+    double lon2Rad = radians(point2.longitude);
+
+    double dlon = lon2Rad - lon1Rad;
+    double dlat = lat2Rad - lat1Rad;
+    double a = sin(dlat / 2) * sin(dlat / 2) +cos(lat1Rad) * cos(lat2Rad) * sin(dlon / 2) * sin(dlon / 2);
+    double c = 2 * asin(sqrt(a));
+    double distanceInKm = earthRadius * c;
+    double distanceInMeters = distanceInKm * 1000;
+    return distanceInMeters.round(); 
+  }
+
+  double radians(double degrees) {
+    return degrees * (pi / 180);
+  }
 
   _setIcon() async {
     await determinePosition();
     customIcon =  await getBytesFromAsset('assets/images/Icon_Contract.png', 90);
     customIconPosition =  await getBytesFromAsset('assets/images/Icon_Position.png', 60);
-    consultarContratos();
+    _determinePosition();
   }
 
 
@@ -284,7 +453,7 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
 
     await location.getLocation().then((onValue) {
       currentposition = onValue;
-      _addMarkers();
+      consultarContratos();
     });
 
   }
@@ -299,11 +468,22 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
         headers: {"Accept": "application/json"});
 
     final reponsebody = json.decode(response.body);
+
+    LatLng punto2 = LatLng(currentposition.latitude, currentposition.longitude);;
+    var lista = [];
+
     setState(() {
       listaContratos = [];
       listaContratos = reponsebody['contratos'];
+      if(listaContratos.length > 0){
+        for (var x = 0; x < listaContratos.length; x++) {
+          var punto1 = LatLng(double.parse(listaContratos[x]["lat_ubic"]), double.parse(listaContratos[x]["long_ubi"]));
+          listaContratos[x]["distancia"] = calculateDistance(punto1, punto2);
+        }
+        mostrarContratoDetalle(listaContratos[0]);
+      }
       markers.clear();
-      _determinePosition();
+      _addMarkers();
     });
   }
 
@@ -329,6 +509,16 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
           mostrarContratoDetalle(item);
         }
       ));
+
+      markers.addLabelMarker(LabelMarker(
+        label: "# "+item["ncont"].toString(),
+        markerId: MarkerId(item["id_contrato"].toString()+"l"),
+        position: LatLng(double.parse(item["lat_ubic"]) + 0.003, double.parse(item["long_ubi"])),
+        backgroundColor: kazul,
+        )).then((value) {
+          setState(() {});
+        },
+    );
     }
     calcularRadio();
   }
@@ -343,13 +533,23 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
       }
     }
 
-    _goToPosition(currentposition);
+    posicionNueva();
   }
 
-  Future<void> _goToPosition(LocationData posicion) async {
+  posicionNueva() async {
+    await location.getLocation().then((onValue) {
+        currentposition = onValue;
+        const double offset = 0.010;
+        final LatLng newCenter = LatLng(currentposition.latitude - offset, currentposition.longitude);
+        _goToPosition(newCenter);
+      });
+  }
+
+  Future<void> _goToPosition(LatLng posicion) async {
     final CameraPosition _kLake = CameraPosition(
-        target: LatLng(posicion.latitude, posicion.longitude),
-        zoom: getZoomLevel(radio));
+      target: posicion,
+      zoom: getZoomLevel(radio)
+    );
 
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
@@ -386,8 +586,8 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
       contratista = item ["descontita"];
       estado = item["estado"];
       porAvance = item["porav_contrato"];
-      alto = 0; 
       total = double.parse(item["total"].toString());
+      distancia = item["distancia"];
     });
   }
 
@@ -399,4 +599,34 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
     );
   }
 
+}
+
+class CustomMarkerPainter extends CustomPainter {
+  final String text;
+
+  CustomMarkerPainter(this.text);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = Colors.white;
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 14,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+
+    textPainter.layout(minWidth: 0, maxWidth: size.width);
+    final offset = Offset(0, 0);
+    textPainter.paint(canvas, offset);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
 }

@@ -58,6 +58,9 @@ class _PresupuestoAsignadoPageState extends State<PresupuestoAsignadoPage> {
                               .withOpacity(0.4),
                           borderRadius: BorderRadius.circular(10000),
                         ),
+                        child: Center(
+                          child: Icon(Icons.account_balance, color: Colors.white, size: 27),
+                        ),
                       ),
                       SizedBox(width: 10),
                       Column(
@@ -68,7 +71,7 @@ class _PresupuestoAsignadoPageState extends State<PresupuestoAsignadoPage> {
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           Text(
-                            "Proyectos: ${secretarias[index]['num_contrato']}",
+                            "Proyectos: ${secretarias[index]['cp']}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey[600]),
@@ -86,16 +89,6 @@ class _PresupuestoAsignadoPageState extends State<PresupuestoAsignadoPage> {
                 ),
               ),
             );
-            /*ListTile(
-              onTap: (){
-                _ir(secretarias[index]['idsecretarias'].toString(),secretarias[index]['des_secretarias']);
-              },
-              title: Text(secretarias[index]['des_secretarias']),
-              subtitle: Text("Contratos: ${secretarias[index]['num_contrato']}\nTotal: \$${oCcy.format(secretarias[index]['monto']).replaceAll(",00", "")}",
-              style: TextStyle(
-                fontWeight: FontWeight.w500 
-              ),)
-            );*/
           },
         ),
       ),

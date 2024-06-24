@@ -210,7 +210,7 @@ class _CGeolocalizacionNuevaPageState extends State<GeolocalizacionNueva> {
                             padding: const EdgeInsets.only(top: 20, bottom: 0, left: 20, right: 20),
                             child: Column(
                               children: <Widget>[
-                                Text("Seleccione un rango de busqueda en KM",
+                                Text("Seleccione un rango de búsqueda en KM",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize:
@@ -530,23 +530,9 @@ class _CGeolocalizacionNuevaPageState extends State<GeolocalizacionNueva> {
     }else{
       setState(() {
         loading = false;
-        //mostrarDialogoError(this.context);
       });
     }
   }
-
-/*
-  mostrarDialogoError(BuildContext context){
-     SweetAlert.show(
-      context,
-      title: "     No hay proyectos \n en un rango de "+_currentSliderValue.toString()+" KM",
-      subtitle: "Amplie el rango de busqueda",
-      confirmButtonColor: kazul,
-      style: SweetAlertStyle.error
-    );
-  }
-*/
-
 
   obtenerSecertarias(String bd, var item) async {
     bd = "gmp_"+bd;
@@ -561,7 +547,6 @@ class _CGeolocalizacionNuevaPageState extends State<GeolocalizacionNueva> {
     agregarLista(item, secretarias);
 
   }
-
 
   filtrarProyectos() async {
     

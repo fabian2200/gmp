@@ -22,59 +22,54 @@ class AuthBloc {
   Future<String> loginGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-          idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-      ////FIREBASE AUTH
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken, accessToken: googleAuth.accessToken
+      );
+
       final result = await authService.signInWithCredential(credential);
 
       spreferences = await SharedPreferences.getInstance();
 
-      //print('${result.user}');
       buscar_proyectos(result.user.displayName, result.user.email, context);
-
-      //return result.user;
-
     } catch (error) {
+      print("error------------------");
       print(error);
     }
-
-    //return "true";
   }
 
-  Future<String> buscar_proyectos(
-      String nombre, String email, BuildContext context) async {
-    print('${URL_SERVER}vrfacebook?bd=${bd}&nombre=${nombre}&email=${email}&contra=');
-    var response = await http.get(
+  Future<String> buscar_proyectos(String nombre, String email, BuildContext context) async {
+    try {
+      var response = await http.get(
         Uri.parse(
-            '${URL_SERVER}vrfacebook?bd=${bd}&nombre=${nombre}&email=${email}&contra='),
-        headers: {"Accept": "application/json"});
+          '${URL_SERVER}vrfacebook?bd=${bd}&nombre=${nombre}&email=${email}&contra='
+        ),
+        headers: {"Accept": "application/json"}
+      );
 
-    final reponsebody = json.decode(response.body);
+      final reponsebody = json.decode(response.body);
 
-    //print(reponsebody);
-
-    if (reponsebody['usuario'] == true) {
-      registrar_google(nombre, email, context);
-    } else {
-      registrar_google(nombre, email, context);
+      if (reponsebody['usuario'] == true) {
+        registrar_google(nombre, email, context);
+      } else {
+        registrar_google(nombre, email, context);
+      }
+    } catch (error) {
+      print("error------------------");
+      print(error);
     }
-    return "Success!";
   }
 
   Future<String> registrar_google(
-      String nombre, String email, BuildContext context) async {
+    String nombre, String email, BuildContext context) async {
     spreferences = await SharedPreferences.getInstance();
     var response = await http.get(
-        Uri.parse(
-            '${URL_SERVER}rfacebook?bd=${bd}&nombre=$nombre&email=$email&contra=&fecha=&bio=&id='),
-        headers: {"Accept": "application/json"});
-
+      Uri.parse('${URL_SERVER}rfacebook?bd=${bd}&nombre=$nombre&email=$email&contra=&fecha=&bio=&id='),
+      headers: {"Accept": "application/json"}
+    );
+    
     final reponsebody = json.decode(response.body);
-
-    //print(reponsebody);
 
     if(reponsebody['usuario']['estado'] == "Activo"){
       spreferences.setString("email", reponsebody['usuario']['email']);
