@@ -84,12 +84,11 @@ class _ContratosPageState extends State<ContratosPage> {
 
   Future<String> buscar_contratos() async {
     var response = await http.get(
-        Uri.parse('${URL_SERVER}contratos?bd=${bd}&id=${widget.id}'),
-        headers: {"Accept": "application/json"});
+      Uri.parse('${URL_SERVER}contratos?bd=${bd}&id=${widget.id}'),
+      headers: {"Accept": "application/json"}
+    );
 
     final reponsebody = json.decode(response.body);
-
-    //print(reponsebody['contratos']);
 
     this.setState(() {
       this.contratos = reponsebody['contratos'];
@@ -109,7 +108,8 @@ class _ContratosPageState extends State<ContratosPage> {
     Navigator.push(
       context,
       CupertinoPageRoute(
-          builder: (context) => DetalleContratosPage(id_con: id_con)),
+        builder: (context) => DetalleContratosPage(id_con: id_con)
+      ),
     );
   }
 }

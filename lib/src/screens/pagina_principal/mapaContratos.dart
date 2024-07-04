@@ -215,7 +215,7 @@ class _MapaContratosPageState extends State<MapaContratosPage> {
                         SizedBox(width: 5),
                         Container(
                           child: Text(
-                            "Contratista: ", 
+                            "Contr: ", 
                             style: TextStyle(fontSize: 13, color: krosado, fontWeight: FontWeight.bold),
                             softWrap: true,
                             overflow: TextOverflow.visible,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gmp/src/blocs/auth_bloc.dart';
+import 'package:gmp/src/screens/cuentaDesactivadaPage.dart';
 import 'package:gmp/src/screens/pagina_principal/bienvenida.dart';
 import 'package:gmp/src/screens/registro_usuario/olvidoPassword.dart';
 import 'package:gmp/src/settings/constantes.dart';
@@ -60,9 +61,11 @@ class _LoginPageState extends State<LoginPage> {
     //return datauser;
   }
 
+  AuthBloc authBloc;
+
   @override
   Widget build(BuildContext context) {
-    final authBloc = Provider.of<AuthBloc>(context);
+    authBloc = Provider.of<AuthBloc>(context);
     SizeConfig().init(context);
     Size size = MediaQuery.of(context).size;
     return  BlurryModalProgressHUD(
@@ -325,7 +328,10 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              authBloc.loginGoogle(context);
+                              setState(() {
+                                loading = true;
+                              });
+                              LoginGoogle(context);
                             },
                             child: Container(
                               height: _sc.getProportionateScreenHeight(50),
@@ -486,7 +492,6 @@ class _LoginPageState extends State<LoginPage> {
         spreferences.setString("email", reponsebody['usuario']['email']);
         spreferences.setString("nombre", reponsebody['usuario']['nombre']);
         spreferences.setString("imagen", reponsebody['usuario']['imagen']);
-        spreferences.setString("alias", reponsebody['alias'] ?? "");
         spreferences.setString("id", reponsebody['usuario']['id'].toString());
         spreferences.setString("bio", reponsebody['usuario']['bio'].toString());
          spreferences.setBool("notificaciones", true);
@@ -532,7 +537,7 @@ class _LoginPageState extends State<LoginPage> {
 
     switch (result.status) {
       case AuthorizationStatus.authorized:
-        registrar_google(
+        registrar_google_apple(
           "${result.credential.fullName.givenName} ${result.credential.fullName.familyName}",
           "${result.credential.email}",
           context
@@ -552,7 +557,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<String> registrar_google(
+  Future<String> registrar_google_apple(
       String nombre, String email, BuildContext context) async {
     spreferences = await SharedPreferences.getInstance();
 
@@ -619,5 +624,52 @@ class _LoginPageState extends State<LoginPage> {
       gravity: ToastGravity.BOTTOM,
       toastDuration: Duration(seconds: 2),
     );
+  }
+
+  LoginGoogle(BuildContext context) async {
+    String respuesta = await authBloc.loginGoogle(context);
+    setState(() {
+      loading = false;
+    });
+
+    if(respuesta == "Activo"){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BienvenidaPage()));
+    }else{
+      if(respuesta == "Inactivo"){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CuentaDesactivadaPage()));
+      }else{
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Icon(Icons.warning_amber, color: Colors.red, size: 70),
+              content: Container(
+                height: 100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(respuesta, style: TextStyle(color: kazuloscuro, fontWeight: FontWeight.bold, fontSize: 19)),
+                    SizedBox(height: 10),
+                    Text("Por favor intente nuevamente.", style: TextStyle(color: kazuloscuro, fontWeight: FontWeight.bold, fontSize: 19)),
+                  ],
+                ) 
+              ), 
+              actions: <Widget>[
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: krojo,
+                  ),
+                  child: Text('Ok', style: TextStyle(color: Colors.white)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
   }
 }

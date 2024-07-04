@@ -9,6 +9,7 @@ import 'package:gmp/src/screens/pdfViewer/pdfViewerPage.dart';
 import 'package:gmp/src/screens/perfil/ayuda.dart';
 import 'package:gmp/src/screens/perfil/cambiarpassword.dart';
 import 'package:gmp/src/screens/perfil/editarperfil.dart';
+import 'package:gmp/src/screens/perfil/favoritos.dart';
 import 'package:gmp/src/screens/perfil/pqrs.dart';
 import 'package:gmp/src/settings/constantes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -151,7 +152,34 @@ class _PerfilPageState extends State<PerfilPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CambiarPasswordPage()),
+                              builder: (context) => FavoritosPage(idUsuario: id)),
+                        );
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.lock_clock_outlined),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Registro de Actividad",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                    horizontal: defaultpadding, vertical: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CambiarPasswordPage()
+                          ),
                         );
                       },
                       child: Row(

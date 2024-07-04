@@ -213,6 +213,9 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
     DateTime fecha1 =  DateTime.parse(fecha);
     DateTime fecha2 =  DateTime.now();
 
+    fecha1 = DateTime(fecha1.year, fecha1.month, fecha1.day);
+    fecha2 = DateTime(fecha2.year, fecha2.month, fecha2.day);
+
     Duration _diastotales = fecha2.difference(fecha1);
 
     List<String> meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo","Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -226,9 +229,8 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
         if(_diastotales.inDays <= 7){
           return "Hace "+_diastotales.inDays.toString()+" dias ";
         }else{
-          return fecha1.day.toString()+" de "+meses[fecha1.month]+" del "+fecha1.year.toString()+", ";
+          return fecha1.day.toString() +" de " +meses[fecha1.month - 1] +" del " +fecha1.year.toString() +", ";
         }
-        
       }
     }
   }

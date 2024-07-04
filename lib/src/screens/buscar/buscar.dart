@@ -52,7 +52,6 @@ class _BuscarPageState extends State<BuscarPage> {
                       controller: controllerbusqueda,
                       onChanged: (text) {
                         buscar_proyectos(text);
-                        //print("First text field: $text");
                       },
                     ),
                   ),
@@ -105,8 +104,7 @@ class _BuscarPageState extends State<BuscarPage> {
                                       ],
                                     ),
                                   )
-                                  //Text('${proy[index1]['dtipol_proyec']}'),
-                                  ),
+                              ),
                             ),
                             secondaryActions: <Widget>[
                               IconSlideAction(
@@ -169,7 +167,8 @@ class _BuscarPageState extends State<BuscarPage> {
       Navigator.push(
         context,
         CupertinoPageRoute(
-            builder: (context) => DetalleProyetcosPage(idproyect: idproyect)),
+          builder: (context) => DetalleProyetcosPage(idproyect: idproyect)
+        ),
       );
     }
   }

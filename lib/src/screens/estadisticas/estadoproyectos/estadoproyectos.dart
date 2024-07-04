@@ -96,7 +96,8 @@ class _EstadoProyectosPageState extends State<EstadoProyectosPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => GraficaEstadoProyectosPage(idSecretaria: id,nombreSecretiaria: nombre,)),
+        builder: (context) => GraficaEstadoProyectosPage(idSecretaria: id,nombreSecretiaria: nombre,)
+      ),
     );
   }
 }

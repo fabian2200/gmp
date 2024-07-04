@@ -144,20 +144,20 @@ class _CalificacionesPageState extends State<CalificacionesPage> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(defaultpadding - 15),
-                        //border: Border.all(color: Colors.grey[400]),
-                        color: Colors.green),
+                      borderRadius: BorderRadius.circular(defaultpadding - 15),
+                      color: Colors.green),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: defaultpadding - 5),
+                        vertical: defaultpadding - 5
+                      ),
                       child: Center(
-                          child: Text(
+                        child: Text(
                         "Realizar busqueda",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: _sc.getProportionateScreenHeight(15),
-                            fontWeight: FontWeight.w500),
+                          color: Colors.white,
+                          fontSize: _sc.getProportionateScreenHeight(15),
+                          fontWeight: FontWeight.w500
+                        ),
                       )),
                     ),
                   ),
@@ -286,7 +286,6 @@ class _CalificacionesPageState extends State<CalificacionesPage> {
     Widget rating=Row();
     int estrellas;
     estrellas = numero.floor();
-    //print(estrellas);
     if (estrellas == 1) {
       rating = Row(
         children: [
@@ -420,10 +419,11 @@ class _CalificacionesPageState extends State<CalificacionesPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => GraficaEstadoProyectosPage(
-                idSecretaria: id,
-                nombreSecretiaria: nombre,
-              )),
+        builder: (context) => GraficaEstadoProyectosPage(
+          idSecretaria: id,
+          nombreSecretiaria: nombre,
+        )
+      ),
     );
   }
 }

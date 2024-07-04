@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-
+/*
 const String URLROOT = "http://192.168.1.76/back_gmp/webgmp/public/";
 const String URL_SERVER = "http://192.168.1.76/back_gmp/webgmp/public/";
 const String URL_SERVER2 = "http://192.168.1.76/back_gmp/webgmp/public/";
@@ -11,8 +11,8 @@ const String RUTA_IMAGEN = "https://192.168.1.76/front_gmp/Administracion/";
 const String URL_PROYECTOS = "https://192.168.1.76/front_gmp/Proyecto/GaleriaProyecto/";
 const String URL_CONTRATOS = "https://192.168.1.76/front_gmp/Proyecto/Galeria/";
 const String URL_SIN = "https://192.168.1.76/front_gmp/Img/";
+*/
 
-/*
 const String URLROOT = "https://gmp.leeringenieria.com/back_gmp/webgmp/public/";
 const String URL_SERVER = "https://gmp.leeringenieria.com/back_gmp/webgmp/public/";
 const String URL_SERVER2 = "https://gmp.leeringenieria.com/back_gmp/webgmp/public/";
@@ -23,7 +23,7 @@ const String RUTA_IMAGEN = "https://gmp.leeringenieria.com/front_gmp/Administrac
 const String URL_PROYECTOS = "https://gmp.leeringenieria.com/front_gmp/Proyecto/GaleriaProyecto/";
 const String URL_CONTRATOS = "https://gmp.leeringenieria.com/front_gmp/Proyecto/Galeria/";
 const String URL_SIN = "https://gmp.leeringenieria.com/front_gmp/Img/";
-*/
+
 
 
 const double defaultpadding = 20.0;

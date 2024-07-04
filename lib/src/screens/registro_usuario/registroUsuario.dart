@@ -413,7 +413,6 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
       spreferences.setString("email", reponsebody['usuario']['email']);
       spreferences.setString("nombre", reponsebody['usuario']['nombre']);
       spreferences.setString("bio", reponsebody['usuario']['bio'] ?? '');
-      spreferences.setString("alias", reponsebody['alias'] ?? '');
       spreferences.setBool("notificaciones", true);
       spreferences.setString("id", reponsebody['usuario']['id'].toString());
       spreferences.setString("id_usu", reponsebody['usuario']['id'].toString());

@@ -1,8 +1,11 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gmp/src/settings/constantes.dart';
 import 'package:gmp/src/settings/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:motion_toast/motion_toast.dart';
 
 class CalificarPage extends StatefulWidget {
   final idProyect;
@@ -21,7 +24,6 @@ class _CalificarPageState extends State<CalificarPage> {
     SizeConfig().init(context);
     Size size = MediaQuery.of(context).size;
     return Container(
-      //alignment: Alignment.center,
       width: double.infinity,
       height: size.height * 0.3,
       child: Column(
@@ -29,7 +31,7 @@ class _CalificarPageState extends State<CalificarPage> {
         children: <Widget>[
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: 18.0),
               child: Text(
                 "Valora este contrato",
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
@@ -40,9 +42,10 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Text(
               "Tu opinión nos interesa",
               style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600),
+                color: Colors.grey,
+                fontSize: 20,
+                fontWeight: FontWeight.w600
+              ),
             ),
           ),
           SizedBox(height: 20),
@@ -55,9 +58,9 @@ class _CalificarPageState extends State<CalificarPage> {
             padding: const EdgeInsets.symmetric(horizontal: defaultpadding),
             child: GestureDetector(
               onTap: (){
-                calificar();
+                calificar(context);
               },
-                          child: Container(height: size.height * 0.06,
+              child: Container(height: size.height * 0.06,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.green[700],
@@ -78,12 +81,45 @@ class _CalificarPageState extends State<CalificarPage> {
     instanciar_sesion();
   }
 
-  Future<String> calificar() async {
-    //print('${URL_SERVER}guardarrating_proyectos?bd=${bd}&num_contrato=${widget.idProyect}&value=${estrelas}');
+  Future<String> calificar(BuildContext context) async {
+    var spreferences = await SharedPreferences.getInstance();
+    var id_usu = spreferences.getString("id");
+
     var response = await http.get(
-        Uri.parse('${URL_SERVER}guardarrating?bd=${bd}&num_contrato=${widget.idProyect}&value=${estrelas}'),
-        headers: {"Accept": "application/json"});
+      Uri.parse('${URL_SERVER}guardarrating?bd=${bd}&num_contrato=${widget.idProyect}&value=${estrelas}&id_usu=${id_usu}'),
+      headers: {"Accept": "application/json"}
+    );
+
+    Navigator.of(context).pop();
+    final responseBody = json.decode(response.body);
+
+    var codigo = responseBody["existe"];
+
+    switch (codigo) {
+      case 1:
+        _mensaje(Colors.orange,"Ya usted califico este contrato, su calificación fue actualizada a "+estrelas.toString(), context);
+        break;
+      case 0:
+        _mensaje(Colors.green,"Calificación registrada correctamente", context);
+        break;
+    }
+  }
+
+
+  _mensaje( Color color, String mensaje, BuildContext context){
+    MotionToast(
+      color: color,
+      description: mensaje,
+      icon: Icons.message,
+    ).show(context);
+
+    if(mensaje == "Usuario registrado correctamente"){
+      Timer(Duration(milliseconds: 2000), () {
         Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      });
+    }
+
   }
 
   instanciar_sesion() async {
@@ -95,7 +131,6 @@ class _CalificarPageState extends State<CalificarPage> {
     Widget rating = Row();
     int estrellas;
     estrellas = numero.floor();
-    //print(estrellas);
     if (estrellas == 1) {
       rating = rating = Row(
         children: [
@@ -107,7 +142,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -117,7 +152,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -127,7 +162,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -137,7 +172,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -147,7 +182,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           Spacer()
@@ -164,7 +199,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -174,7 +209,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -184,7 +219,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -194,7 +229,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -204,7 +239,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           Spacer()
@@ -221,7 +256,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -231,7 +266,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -241,7 +276,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -251,7 +286,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -261,7 +296,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           Spacer()
@@ -278,7 +313,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -288,7 +323,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -298,7 +333,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -308,7 +343,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -318,7 +353,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           Spacer()
@@ -335,7 +370,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -345,7 +380,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -355,7 +390,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -365,7 +400,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -375,7 +410,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           Spacer()
@@ -393,7 +428,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -403,7 +438,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -413,7 +448,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -423,7 +458,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           GestureDetector(
@@ -433,7 +468,7 @@ class _CalificarPageState extends State<CalificarPage> {
             child: Icon(
               Icons.star_border_outlined,
               color: Colors.yellow[600],
-              size: 40,
+              size: 50,
             ),
           ),
           Spacer()

@@ -17,16 +17,7 @@ class PushNotificationProvider {
 
   initNotificaciones() {
     _firebaseMessaging.requestPermission();
-
-    /*_firebaseMessaging.getToken().then((token) {
-      print("======= TOKEN ========");
-      print(token);
-      guardartoken(token);
-    });*/
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      //RemoteNotification notification = message.notification;
-      //AndroidNotification android = message.notification?.android;
       print("==== ON MESSAGE ====");
       print(message.notification.body);
       _mesajeController.sink.add(message.notification.body);

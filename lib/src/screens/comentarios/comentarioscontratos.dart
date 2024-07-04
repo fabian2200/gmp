@@ -453,8 +453,7 @@ SharedPreferences spreferences;
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red, // background
-                        onPrimary: Colors.white, // foreground
+                        foregroundColor: Colors.white, backgroundColor: Colors.red, // foreground
                       ),
                       onPressed: () { Navigator.pop(context); },
                       child: Text('Cancelar'),
@@ -462,8 +461,7 @@ SharedPreferences spreferences;
                     SizedBox(width: 10),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: kazul, // background
-                        onPrimary: Colors.white, // foreground
+                        foregroundColor: Colors.white, backgroundColor: kazul, // foreground
                       ),
                       onPressed: () {
                         Navigator.pop(context);

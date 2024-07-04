@@ -114,10 +114,8 @@ class _GraficaEstadoProyectosPageState
         headers: {"Accept": "application/json"});
 
     final reponsebody = json.decode(response.body);
-    // print(reponsebody);
     this.setState(() {
       try {
-        //print(reponsebody['datos_secretaria']["total"]);
         ejecucion = reponsebody['proyectos_ejecucion'];
         ejecutados = reponsebody['proyectos_ejecutados'];
         radicados = reponsebody['proyectos_radicados'];
@@ -163,8 +161,8 @@ class _GraficaEstadoProyectosPageState
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) =>
-              ListadoEstado(idSecretaria: id, estado: estado)),
+        builder: (context) => ListadoEstado(idSecretaria: id, estado: estado)
+      ),
     );
   }
 }

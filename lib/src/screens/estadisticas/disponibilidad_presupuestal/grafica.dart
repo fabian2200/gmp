@@ -214,21 +214,6 @@ class _GraficaDisponibilidadPageState extends State<GraficaDisponibilidadPage> {
                         ),
                       ),
                     )
-                    /*Text(
-                      "Presupuesto total: ",
-                      style: TextStyle(
-                          fontSize: _sc.getProportionateScreenHeight(16),
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Spacer(),
-                    Text(
-                      total != null
-                          ? "\$ ${oCcy.format(total).replaceAll(",00", "")}"
-                          : "",
-                      style: TextStyle(
-                          fontSize: _sc.getProportionateScreenHeight(16),
-                          color: Colors.green),
-                    )*/
                   ],
                 ),
                 Row(
@@ -325,21 +310,6 @@ class _GraficaDisponibilidadPageState extends State<GraficaDisponibilidadPage> {
                         ),
                       ),
                     )
-                    /*Text(
-                      "Presupuesto total: ",
-                      style: TextStyle(
-                          fontSize: _sc.getProportionateScreenHeight(16),
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Spacer(),
-                    Text(
-                      total != null
-                          ? "\$ ${oCcy.format(total).replaceAll(",00", "")}"
-                          : "",
-                      style: TextStyle(
-                          fontSize: _sc.getProportionateScreenHeight(16),
-                          color: Colors.green),
-                    )*/
                   ],
                 ),
                 Card(
@@ -420,11 +390,9 @@ class _GraficaDisponibilidadPageState extends State<GraficaDisponibilidadPage> {
         headers: {"Accept": "application/json"});
 
     final reponsebody = json.decode(response.body);
-    // print(reponsebody);
     this.setState(() {
       try {
         secretaria = reponsebody['secretaria'][0]['des_secretarias'].toString();
-        //print(reponsebody['datos_secretaria']["total"]);
         total =
             double.parse(reponsebody['datos_secretaria']["total"].toString());
         asignado = double.parse(
@@ -435,8 +403,6 @@ class _GraficaDisponibilidadPageState extends State<GraficaDisponibilidadPage> {
         disponible = total - asignado;
 
         fuentes = reponsebody['fuentes'];
-
-        //print(fuentes);
 
         porDisponible = disponible * 100 / total;
         porAsignado = asignado * 100 / total;

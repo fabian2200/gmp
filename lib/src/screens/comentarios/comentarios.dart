@@ -457,8 +457,7 @@ class _ComentariosPageState extends State<ComentariosPage> {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red, // background
-                        onPrimary: Colors.white, // foreground
+                        foregroundColor: Colors.white, backgroundColor: Colors.red, // foreground
                       ),
                       onPressed: () { Navigator.pop(context); },
                       child: Text('Cancelar'),
@@ -466,8 +465,7 @@ class _ComentariosPageState extends State<ComentariosPage> {
                     SizedBox(width: 10),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: kazul, // background
-                        onPrimary: Colors.white, // foreground
+                        foregroundColor: Colors.white, backgroundColor: kazul, // foreground
                       ),
                       onPressed: () {
                         Navigator.pop(context);

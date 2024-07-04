@@ -47,13 +47,27 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
   int seleccionado = 1;
   var tienelikes = false;
   int idProyecto;
+
+  String dsecretar_proyect = "";
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     Size size = MediaQuery.of(context).size;
     return Container(
       child: Scaffold(
-        appBar: AppBar(title: Text("Detalle de proyectos")),
+        appBar: AppBar(
+          title: Container(
+            padding: EdgeInsets.only(left: defaultpadding + 30),
+            child:Text("Detalle del proyecto")
+          ),
+          toolbarHeight: 60,
+          backgroundColor: kazul,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(defaultpadding),
@@ -62,21 +76,39 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
               children: <Widget>[
                 SizedBox(height: defaultpadding),
                 Container(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "Información del proyecto",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: _sc.getProportionateScreenHeight(20)),
+                  width: size.width * 0.9,
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  height: defaultpadding - 5,
-                ),
-                nombre_proyecto != null
-                    ? Text(nombre_proyecto)
-                    : Column(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [ 
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          "Información del proyecto",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: _sc.getProportionateScreenHeight(23),
+                            color: kazuloscuro
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: defaultpadding - 5,
+                      ),
+                      nombre_proyecto != null ? Text(nombre_proyecto) : Column(
                         children: <Widget>[
                           nombre_cargando(),
                           SizedBox(
@@ -92,15 +124,13 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
                           ),
                         ],
                       ),
-                SizedBox(height: defaultpadding),
-                estado_proyect == null
-                    ? nombre_cargando()
-                    : Row(
+                      SizedBox(height: defaultpadding),
+                      estado_proyect == null ? nombre_cargando() : Row(
                         children: <Widget>[
                           Text(
                             "Estado actual del proyecto: ",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.bold,
                                 fontSize: defaultpadding - 3),
                           ),
                           badges.Badge(
@@ -116,37 +146,48 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
                           ),
                         ],
                       ),
-                SizedBox(
-                  height: 5,
-                ),
-                porceEjec_proyect == null
-                    ? nombre_cargando()
-                    : Row(
+                      SizedBox(
+                        height: 5,
+                      ),
+                      porceEjec_proyect == null ? nombre_cargando() : Row(
                         children: <Widget>[
                           Text(
                             "Porcetanje de ejecución: ${porceEjec_proyect}",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.bold,
                                 fontSize: defaultpadding - 3),
                           ),
                         ],
                       ),
-                SizedBox(
-                  height: defaultpadding,
+                      SizedBox( height: 5),
+                      Container(
+                        height: 2,
+                        color: Color.fromARGB(90, 169, 170, 170),
+                      ),
+                       SizedBox( height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.account_balance, color: Colors.grey),
+                          SizedBox(width: 10),
+                          Container(
+                            width: size.width * 0.7,
+                            child: Text(
+                              dsecretar_proyect,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: defaultpadding - 3
+                              ),
+                            ),
+                          )
+                               
+                        ],
+                      )
+                    ]
+                  )
                 ),
-                Container(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "Galería de imagenes",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: _sc.getProportionateScreenHeight(18),
-                    ),
-                  ),
-                ),
                 SizedBox(
-                  height: defaultpadding,
+                  height: defaultpadding + 15,
                 ),
                 Center(
                   child: Row(
@@ -240,7 +281,7 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 4,
+                  height: 16,
                 ),
                 lista_slider != null
                     ? lista_slider.length > 0
@@ -255,7 +296,7 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
                                 fit: BoxFit.cover),
                           )
                     : Container(),
-                SizedBox(height: 5),
+                SizedBox(height: 15),
                 Row(
                   children: [
                     Center(
@@ -268,11 +309,11 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
                              child: tienelikes == false? Icon(
                               Icons.favorite_border,
                               color: Colors.redAccent,
-                              size: 32,
+                              size: 40,
                             ) : Icon(
                               Icons.favorite,
                               color: Colors.redAccent,
-                              size: 32,
+                              size: 40,
                             ),
                           ),
                           Text(
@@ -291,7 +332,7 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
                             child: Icon(
                               Icons.message,
                               color: Colors.blueAccent,
-                              size: 32
+                              size: 40
                             ),
                           ),
                           Text(
@@ -310,7 +351,7 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Icon(Icons.star, color: Colors.yellow, size: 32),
+                                Icon(Icons.star, color: Color.fromARGB(255, 255, 219, 59), size: 40),
                                 Text(
                                   valur.toString(),
                                   style: TextStyle(
@@ -362,7 +403,6 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
 
   mostrarcaja(BuildContext context) {
     var pad = MediaQuery.of(context).padding.top;
-    //print("Padding-top:${pad}");
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -379,7 +419,6 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
 
   modalCalificaciones(BuildContext context) {
     var pad = MediaQuery.of(context).padding.top;
-    //print("Padding-top:${pad}");
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -438,15 +477,13 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
 
   Future<String> buscar_proyectos() async {
     var response = await http.get(
-        Uri.parse('${URL_SERVER}proyecto?bd=${bd}&id=${widget.idproyect}'),
-        headers: {"Accept": "application/json"});
+      Uri.parse('${URL_SERVER}proyecto?bd=${bd}&id=${widget.idproyect}'),
+      headers: {"Accept": "application/json"}
+    );
 
     final reponsebody = json.decode(response.body);
-    //print('${URL_SERVER}proyecto?bd=${bd}&id=${widget.idproyect}');
 
     this.setState(() {
-      //proyecto = reponsebody['proyecto'];
-      //print(nombre_proyecto);
       idProyecto = reponsebody['proyecto']['id_proyect'];
       nombre_proyecto = reponsebody['proyecto']['nombre_proyect'];
       secretaria_proyecto = reponsebody['proyecto']['dsecretar_proyect'];
@@ -457,7 +494,7 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
       this.estado_final = reponsebody['estado_final'];
       this.estado_proyect = reponsebody['proyecto']['estado_proyect'];
       this.porceEjec_proyect = reponsebody['proyecto']['porceEjec_proyect'];
-      //this.metas_producto = reponsebody['producto'];
+      this.dsecretar_proyect = reponsebody['proyecto']['dsecretar_proyect'];
       this.banproducto = metas_producto.length;
       this.likes = reponsebody['likes'].toString();
       this.comentarios = reponsebody['comentarios'].toString();
@@ -504,18 +541,18 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
     var total;
     var todos;
     var temp;
+
     var response = await http.get(
-         Uri.parse('${URL_SERVER}proyecto?bd=${bd}&id=${widget.idproyect}'),
-        headers: {"Accept": "application/json"});
+      Uri.parse('${URL_SERVER}proyecto?bd=${bd}&id=${widget.idproyect}'),
+      headers: {"Accept": "application/json"}
+    );
 
     final reponsebody = json.decode(response.body);
-    //print(reponsebody);
     this.setState(() {
       total = reponsebody['rating']["total"].toString();
       todos = reponsebody['rating']["todos"].toString();
       temp = (total == "null" ? 0 : int.parse(total) / int.parse(todos)).toString();
       valur = temp == "0" ? "0": temp.substring(0, temp.indexOf("."));
-      //valur = (int.parse(reponsebody['rating']["total"]) / int.parse(reponsebody['rating']["todos"]));
     });
     return "Success!";
   }
@@ -545,16 +582,6 @@ class _DetalleProyetcosPageState extends State<DetalleProyetcosPage> {
   }
 }
 
-/*Container(
-                  height: size.height*0.3,
-                  decoration: BoxDecoration(
-                    border: Border()
-                  ),
-                  child: Image.asset('assets/no-imagen.png',
-                  fit: BoxFit.cover
-                  ),
-                ) */
-
 class Imagenes extends StatelessWidget {
   const Imagenes({
     Key key,
@@ -571,19 +598,19 @@ class Imagenes extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: size.height * 0.3,
+        height: size.height * 0.25,
         enlargeCenterPage: true,
         autoPlay: false,
         aspectRatio: 16 / 9,
         enableInfiniteScroll: true,
-        viewportFraction: 1,
+        viewportFraction: 0.82,
       ),
       items: lista_slider.map((i) {
         return Builder(builder: (BuildContext context) {
           return Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(color: Colors.amber),
+              decoration: BoxDecoration(color: Color.fromARGB(255, 216, 216, 216)),
               child: i['tipo'] == "P"
                   ? Image.network(
                       '${URL_PROYECTOS}${empresa}/${i['numero']}/${i["img_galeria"]}',

@@ -85,8 +85,16 @@ class VistaComentarioNot extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Text(calcularFechas(fecha)+"A las ", style: TextStyle(fontStyle: FontStyle.italic, fontSize: _sc.getProportionateScreenHeight(10))),
-                            Text(hora, style: TextStyle(fontStyle: FontStyle.italic, fontSize: _sc.getProportionateScreenHeight(10)))
+                            Text(calcularFechas(fecha) + "A las ",
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontSize:
+                                        _sc.getProportionateScreenHeight(10))),
+                            Text(hora,
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontSize:
+                                        _sc.getProportionateScreenHeight(10)))
                           ],
                         ),
                       ),
@@ -104,26 +112,41 @@ class VistaComentarioNot extends StatelessWidget {
     );
   }
 
-  calcularFechas(var fecha){
-    DateTime fecha1 =  DateTime.parse(fecha);
-    DateTime fecha2 =  DateTime.now();
+  calcularFechas(var fecha) {
+    DateTime fecha1 = DateTime.parse(fecha);
+    DateTime fecha2 = DateTime.now();
+
+    fecha1 = DateTime(fecha1.year, fecha1.month, fecha1.day);
+    fecha2 = DateTime(fecha2.year, fecha2.month, fecha2.day);
 
     Duration _diastotales = fecha2.difference(fecha1);
 
-    List<String> meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo","Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    
-    if(_diastotales.inDays == 0){
+    List<String> meses = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+
+    if (_diastotales.inDays == 0) {
       return "Hoy ";
-    }else{
+    } else {
       if (_diastotales.inDays == 1) {
         return "Ayer ";
-      }else{
-        if(_diastotales.inDays <= 7){
-          return "Hace "+_diastotales.inDays.toString()+" dias ";
-        }else{
-          return fecha1.day.toString()+" de "+meses[fecha1.month]+" del "+fecha1.year.toString()+", ";
+      } else {
+        if (_diastotales.inDays <= 7) {
+          return "Hace " + _diastotales.inDays.toString() + " dias ";
+        } else {
+          return fecha1.day.toString() +" de " +meses[fecha1.month - 1] +" del " +fecha1.year.toString() +", ";
         }
-        
       }
     }
   }

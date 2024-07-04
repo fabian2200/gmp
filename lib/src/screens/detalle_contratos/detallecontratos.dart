@@ -58,7 +58,17 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Detalle del contrato"),
+          title: Container(
+            padding: EdgeInsets.only(left: defaultpadding + 30),
+            child:Text("Detalle del contrato")
+          ),
+          toolbarHeight: 60,
+          backgroundColor: kazul,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -67,33 +77,51 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
               children: [
                 SizedBox(height: defaultpadding),
                 Container(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "Información del contrato",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: _sc.getProportionateScreenHeight(20)),
+                  width: size.width * 0.9,
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  height: defaultpadding - 5,
-                ),
-                nombre_proyecto != ""
-                    ? Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                            child: Text(
-                              nombre_proyecto,
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(),
-                            )
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [ 
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          "Información del contrato",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: _sc.getProportionateScreenHeight(23),
+                            color: kazuloscuro
                           ),
-                      ],
-                    ) 
-                    : Column(
+                        ),
+                      ),
+                      SizedBox(
+                        height: defaultpadding - 5,
+                      ),
+                      nombre_proyecto != "" ? Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                              child: Text(
+                                nombre_proyecto,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(),
+                              )
+                            ),
+                        ],
+                      ) : Column(
                         children: <Widget>[
                           nombre_cargando(),
                           SizedBox(
@@ -109,15 +137,13 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                           ),
                         ],
                       ),
-                SizedBox(height: defaultpadding),
-                valor == null
-                    ? nombre_cargando()
-                    : Row(
+                      SizedBox(height: defaultpadding),
+                      valor == null ? nombre_cargando() : Row(
                         children: <Widget>[
                           Text(
                             "Valor: ",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.bold,
                                 fontSize: 16),
                           ),
                           Text(
@@ -128,15 +154,13 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                           ),
                         ],
                       ),
-                SizedBox(height: defaultpadding - 15),
-                duracion == null
-                    ? nombre_cargando()
-                    : Row(
+                      SizedBox(height: defaultpadding - 15),
+                      duracion == null ? nombre_cargando() : Row(
                         children: <Widget>[
                           Text(
                             "Duración: ",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.bold,
                                 fontSize: 16),
                           ),
                           Text(
@@ -147,15 +171,13 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                           ),
                         ],
                       ),
-                SizedBox(height: defaultpadding - 15),
-                interventor == null
-                    ? nombre_cargando()
-                    : Row(
+                      SizedBox(height: defaultpadding - 15),
+                      interventor == null ? nombre_cargando() : Row(
                         children: <Widget>[
                           Text(
                             "Interventor: ",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.bold,
                                 fontSize: 16),
                           ),
                           Expanded(
@@ -168,17 +190,15 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                           ),
                         ],
                       ),
-                SizedBox(
-                  height: 5,
-                ),
-                estad_contrato == null
-                    ? nombre_cargando()
-                    : Row(
+                      SizedBox(
+                        height: 5,
+                      ),
+                      estad_contrato == null ? nombre_cargando() : Row(
                         children: <Widget>[
                           Text(
                             "Estado actual del proyecto: ",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.bold,
                                 fontSize: 16),
                           ),
                           badges.Badge(
@@ -196,6 +216,9 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                           ),
                         ],
                       ),
+                    ]
+                  )
+                ),
                 SizedBox(
                   height: _sc.getProportionateScreenHeight(30),
                 ),
@@ -206,9 +229,10 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                   child: Text(
                     'Ver contrato en el secop',
                     style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: Colors.blueAccent),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      color: Colors.blueAccent
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -306,7 +330,7 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 4,
+                  height: 16,
                 ),
                 lista_slider != null
                     ? lista_slider.length > 0
@@ -335,11 +359,11 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                             child: tienelikes == false? Icon(
                               Icons.favorite_border,
                               color: Colors.redAccent,
-                              size: 32,
+                              size: 40,
                             ) : Icon(
                               Icons.favorite,
                               color: Colors.redAccent,
-                              size: 32,
+                              size: 40,
                             ),
                           ),
                           Text(
@@ -358,7 +382,7 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                             child: Icon(
                               Icons.message,
                               color: Colors.blueAccent,
-                              size: 32,
+                              size: 40,
                             ),
                           ),
                           Text(
@@ -377,7 +401,7 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Icon(Icons.star, color: Colors.yellow, size: 32),
+                                Icon(Icons.star, color: Colors.yellow, size: 40),
                                 Text(
                                   valur.toString(),
                                   style: TextStyle(
@@ -454,7 +478,6 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
         headers: {"Accept": "application/json"});
 
     final reponsebody = json.decode(response.body);
-    //print(reponsebody);
     this.setState(() {
       total = reponsebody['rating']["total"].toString();
       todos = reponsebody['rating']["todos"].toString();
@@ -474,18 +497,14 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
   }
 
   Future<String> buscar_contratos() async {
-    //print('${URL_SERVER}contratos?bd=${bd}&id=${widget.id_con}');
     var response = await http.get(
-        Uri.parse('${URL_SERVER}contrato?bd=${bd}&id=${widget.id_con}'),
-        headers: {"Accept": "application/json"});
+      Uri.parse('${URL_SERVER}contrato?bd=${bd}&id=${widget.id_con}'),
+      headers: {"Accept": "application/json"}
+    );
 
     final reponsebody = json.decode(response.body);
-    //print('${URL_SERVER}contratos?bd=${bd}&id=${widget.id_con}');
-    //print(reponsebody['contrato']);
 
     this.setState(() {
-      //proyecto = reponsebody['proyecto'];
-
       nombre_proyecto = reponsebody['contrato']['obj_contrato'];
       this.valor = reponsebody['contrato']['vcontr_contrato'].toString();
       this.num_contrato = reponsebody['contrato']["num_contrato"].toString();
@@ -496,7 +515,6 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
       this.avances = reponsebody['avances'];
       this.estado_inicial = reponsebody['estado_inicial'];
       this.estado_final = reponsebody['estado_final'];
-      //this.metas_producto = reponsebody['producto'];
       this.likes = reponsebody['likes'].toString();
       this.comentarios = reponsebody['comentarios'].toString();
 
@@ -512,8 +530,6 @@ class _DetalleContratosPageState extends State<DetalleContratosPage> {
       lista_slider = this.estado_inicial;
       verificarLike();
     });
-
-
     return "Success!";
   }
 
@@ -590,19 +606,19 @@ class Imagenes extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: size.height * 0.3,
+        height: size.height * 0.25,
         enlargeCenterPage: true,
         autoPlay: false,
         aspectRatio: 16 / 9,
         enableInfiniteScroll: true,
-        viewportFraction: 1,
+        viewportFraction: 0.82,
       ),
       items: lista_slider.map((i) {
         return Builder(builder: (BuildContext context) {
           return Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(color: Colors.amber),
+              decoration: BoxDecoration(color: Color.fromARGB(255, 216, 216, 216)),
               child: i['tipo'] == "P"
                   ? Image.network(
                       '${URL_PROYECTOS}${empresa}/${i['num_contrato_galeria']}/${i["img_galeria"]}',

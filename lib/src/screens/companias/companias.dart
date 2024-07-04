@@ -315,7 +315,6 @@ class _CompaniasPageState extends State<CompaniasPage> {
   }
 
   ir(String id, String bd, String lat, String lng, String nombre) {
-    //Timer(Duration(milliseconds: 1000), () {
     spreferences.setString("bd", "gmp_" + bd);
     spreferences.setString("empresa", bd);
     spreferences.setString("lat", lat ?? '');
@@ -328,7 +327,6 @@ class _CompaniasPageState extends State<CompaniasPage> {
         builder: (context) => PrincipalPage(),
       ),
     );
-    // });
   }
 
   instanciar_sesion() async {
@@ -358,7 +356,6 @@ class _CompaniasPageState extends State<CompaniasPage> {
   }
 
   obtenerposicion() async {
-    //print("Obteniendo permisos");
     var serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
       serviceEnabled = await location.requestService();
@@ -375,16 +372,10 @@ class _CompaniasPageState extends State<CompaniasPage> {
       }
     }
 
-    //print(_permissionGranted);
-
     await location.getLocation().then((onValue) {
       _currentPosition = onValue;
       obtenerdireccion(onValue);
-      //print(onValue.latitude.toString() + "," + onValue.longitude.toString());
-      //print(onValue);
-      //_getAddressFromLatLng();
     });
-    //print(currentLocation);
   }
 
   obtenerdireccion(onValue) async {
@@ -419,15 +410,12 @@ class _CompaniasPageState extends State<CompaniasPage> {
 
     final reponsebody = json.decode(response.body);
 
-    //print(reponsebody["companias"]["companias_descripcion"]);
     ir(
         reponsebody["companias"]['companias_id'].toString(),
         reponsebody["companias"]['companias_login'],
         reponsebody["companias"]['lat_ubic'],
         reponsebody["companias"]['long_ubi'],
         reponsebody["companias"]['companias_descripcion']);
-
-    //print(reponsebody);
 
     return "Success!";
   }
