@@ -17,7 +17,7 @@ import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'registro_usuario/registroUsuario.dart';
 import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
-//import 'package:apple_sign_in/apple_sign_in.dart';
+import 'dart:io';
 
 String username;
 //GoogleSignIn _googleSingIn = GoogleSignIn(scopes: ['profile', 'email']);
@@ -323,10 +323,10 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                         height: _sc.getProportionateScreenHeight(defaultpadding + 5),
                       ),
-                      Row(
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GestureDetector(
+                          Platform.isAndroid ? GestureDetector(
                             onTap: () {
                               setState(() {
                                 loading = true;
@@ -335,7 +335,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             child: Container(
                               height: _sc.getProportionateScreenHeight(50),
-                              width:  _sc.getProportionateScreenHeight(50),
+                              width:  _sc.getProportionateScreenHeight(250),
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 borderRadius: BorderRadius.circular(_sc.getProportionateScreenHeight(15)),
@@ -348,24 +348,25 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ],
                               ),
-                              child: Center(
-                                child: Image.asset(
-                                  "assets/images/google.png",
-                                  width: _sc.getProportionateScreenHeight(40),
-                                ),
-                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [ 
+                                  Image.asset(
+                                    "assets/images/google.png",
+                                    width: _sc.getProportionateScreenHeight(30),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text("Inicia sesión con Google", style: TextStyle(color: Color.fromARGB(255, 49, 49, 49)),)
+                                ]
+                              )
                             )
-                          ),
-                          SizedBox(
-                            width: _sc.getProportionateScreenWidth(20),
-                          ),
-                          GestureDetector(
+                          ) : Platform.isIOS ? GestureDetector(
                             onTap: () {
                               logIn();
                             },
                             child: Container(
                               height: _sc.getProportionateScreenHeight(50),
-                              width:  _sc.getProportionateScreenHeight(50),
+                              width:  _sc.getProportionateScreenHeight(250),
                               decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.circular(_sc.getProportionateScreenHeight(15)),
@@ -378,15 +379,19 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ],
                               ),
-                              child: Center(
-                                child: Image.asset(
-                                  "assets/images/apple.png",
-                                  width: _sc.getProportionateScreenHeight(30),
-                                ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [ 
+                                  Image.asset(
+                                    "assets/images/apple.png",
+                                    width: _sc.getProportionateScreenHeight(30),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text("Inicia sesión con Apple", style: TextStyle(color: Colors.white),)
+                                ]
                               ),
                             )
-                          ),
-                          
+                          ) : Center(),
                         ],
                       ),
                       SizedBox(
@@ -563,7 +568,7 @@ class _LoginPageState extends State<LoginPage> {
 
     var response = await http.get(
       Uri.parse(
-        '${URL_SERVER}rfacebook?bd=${bd}&nombre=${nombre}&email=${email}&contra='
+        '${URL_SERVER}rfacebook?bd=${bd}&nombre=${nombre}&email=${email}&contra=&bio='
       ),
       headers: {"Accept": "application/json"}
     );
