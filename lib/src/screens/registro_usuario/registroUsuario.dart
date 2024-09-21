@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gmp/src/settings/constantes.dart';
 import 'package:http/http.dart' as http;
@@ -354,7 +355,24 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
       setState(() {
         loading = true;
       });
-      var response = await http.get(Uri.parse('${URL_SERVER}registrar?nombre=$pnombre&email=$pemail&contra=$pcontra&fecha=$pfecha&bio=$pbio&id=$pid'));
+
+      String plataforma;
+
+      if (Platform.isAndroid) {
+        plataforma = 'Android';
+      } else if (Platform.isIOS) {
+        plataforma = 'iOS';
+      } else if (Platform.isWindows) {
+        plataforma = 'Windows';
+      } else if (Platform.isLinux) {
+        plataforma = 'Linux';
+      } else if (Platform.isMacOS) {
+        plataforma = 'macOS';
+      } else {
+        plataforma = 'Desconocida';
+      }
+
+      var response = await http.get(Uri.parse('${URL_SERVER}registrar?nombre=$pnombre&email=$pemail&contra=$pcontra&fecha=$pfecha&bio=$pbio&id=$pid&dispositivo=$plataforma'));
 
       final reponsebody = json.decode(response.body);
 

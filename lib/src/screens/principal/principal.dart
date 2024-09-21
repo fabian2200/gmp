@@ -82,7 +82,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
     notificaciones = spreferences.getBool("notificaciones");
     if (notificaciones) {
       pushProvider.initNotificaciones();
-      pushProvider.getToken();
+       await pushProvider.getToken();
     }
   }
 }

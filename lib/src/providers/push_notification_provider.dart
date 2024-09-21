@@ -29,8 +29,8 @@ class PushNotificationProvider {
 
   }
 
-  getToken(){
-    _firebaseMessaging.requestPermission();
+  getToken() async {
+    await _firebaseMessaging.requestPermission();
 
     _firebaseMessaging.getToken().then((token) {
       print("======= TOKEN ========");
@@ -43,10 +43,9 @@ class PushNotificationProvider {
     spreferences = await SharedPreferences.getInstance();
     String id_usu = spreferences.getString("id_usu");
     if (spreferences.getString("id_usu") != null) {
+      print("======= Guardando ========");
       print('${URL_SERVER}gtoken?id=${id_usu}&token=${token}');
-      var response = await http.get(
-          Uri.parse('${URL_SERVER}guardartoken?id=${id_usu}&token=${token}'),
-          headers: {"Accept": "application/json"});
+      var response = await http.get(Uri.parse('${URL_SERVER}guardartoken?id=${id_usu}&token=${token}'),headers: {"Accept": "application/json"});
       final reponsebody = json.decode(response.body);
     }
   }

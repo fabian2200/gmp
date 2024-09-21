@@ -241,7 +241,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
     notificaciones = spreferences.getBool("notificaciones");
     if (notificaciones) {
       pushProvider.initNotificaciones();
-      pushProvider.getToken();
+      await pushProvider.getToken();
     }
   }
 

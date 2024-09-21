@@ -160,7 +160,7 @@ class _BienvenidaPageState extends State<BienvenidaPage> {
     notificaciones = spreferences.getBool("notificaciones");
     if (notificaciones) {
       pushProvider.initNotificaciones();
-      pushProvider.getToken();
+      await pushProvider.getToken();
     }
   }
 

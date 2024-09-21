@@ -482,8 +482,23 @@ class _LoginPageState extends State<LoginPage> {
       loading = true;
     });
 
-    final response = await http
-        .get(Uri.parse('${URL_SERVER}login?email=$usuario&password=$contra'));
+    String plataforma;
+
+    if (Platform.isAndroid) {
+      plataforma = 'Android';
+    } else if (Platform.isIOS) {
+      plataforma = 'iOS';
+    } else if (Platform.isWindows) {
+      plataforma = 'Windows';
+    } else if (Platform.isLinux) {
+      plataforma = 'Linux';
+    } else if (Platform.isMacOS) {
+      plataforma = 'macOS';
+    } else {
+      plataforma = 'Desconocida';
+    }
+
+    final response = await http.get(Uri.parse('${URL_SERVER}login?email=$usuario&password=$contra&dispositivo=$plataforma'));
     final reponsebody = json.decode(response.body);
 
     if (reponsebody['logueo']) {
@@ -499,9 +514,9 @@ class _LoginPageState extends State<LoginPage> {
         spreferences.setString("imagen", reponsebody['usuario']['imagen']);
         spreferences.setString("id", reponsebody['usuario']['id'].toString());
         spreferences.setString("bio", reponsebody['usuario']['bio'].toString());
-         spreferences.setBool("notificaciones", true);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => BienvenidaPage()));
+        spreferences.setString("id_usu", reponsebody['usuario']['id'].toString());
+        spreferences.setBool("notificaciones", true);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BienvenidaPage()));
       });
     } else {
       mostrar_mensaje();
@@ -563,12 +578,28 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<String> registrar_google_apple(
-      String nombre, String email, BuildContext context) async {
+    String nombre, String email, BuildContext context) async {
     spreferences = await SharedPreferences.getInstance();
+
+    String plataforma;
+
+    if (Platform.isAndroid) {
+      plataforma = 'Android';
+    } else if (Platform.isIOS) {
+      plataforma = 'iOS';
+    } else if (Platform.isWindows) {
+      plataforma = 'Windows';
+    } else if (Platform.isLinux) {
+      plataforma = 'Linux';
+    } else if (Platform.isMacOS) {
+      plataforma = 'macOS';
+    } else {
+      plataforma = 'Desconocida';
+    }
 
     var response = await http.get(
       Uri.parse(
-        '${URL_SERVER}rfacebook?bd=${bd}&nombre=${nombre}&email=${email}&contra=&bio='
+        '${URL_SERVER}rfacebook?bd=$bd&nombre=$nombre&email=$email&contra=&bio=&dispositivo=$plataforma'
       ),
       headers: {"Accept": "application/json"}
     );

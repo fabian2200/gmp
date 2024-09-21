@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gmp/src/services/auth_service.dart';
@@ -39,8 +40,25 @@ class AuthBloc {
   Future<String> registrar_google(String nombre, String email, BuildContext context) async {
     try {
       spreferences = await SharedPreferences.getInstance();
+
+      String plataforma;
+
+      if (Platform.isAndroid) {
+        plataforma = 'Android';
+      } else if (Platform.isIOS) {
+        plataforma = 'iOS';
+      } else if (Platform.isWindows) {
+        plataforma = 'Windows';
+      } else if (Platform.isLinux) {
+        plataforma = 'Linux';
+      } else if (Platform.isMacOS) {
+        plataforma = 'macOS';
+      } else {
+        plataforma = 'Desconocida';
+      }
+
       var response = await http.get(
-        Uri.parse('${URL_SERVER}rfacebook?bd=${bd}&nombre=$nombre&email=$email&contra=&fecha=&bio=&id='),
+        Uri.parse('${URL_SERVER}rfacebook?bd=$bd&nombre=$nombre&email=$email&contra=&fecha=&bio=&id=&dispositivo=$plataforma'),
         headers: {"Accept": "application/json"}
       );
       
